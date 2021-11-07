@@ -11,7 +11,7 @@
         <article class="post">
             <header>
                 <div>
-                    <h1>{{ post['title'] }}</h1>
+                    <h1><a href="{{ url_for('blog.detalhes', id=post['id']) }}">{{ post['title'] }}</a></h1>
                     <div class="about">por {{ post['username'] }} em {{ post['created'].strftime('%d - %m - %d') }}</div>
                 </div>
                 {% if g.user['id'] == post['author_id'] %}
