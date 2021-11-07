@@ -7,7 +7,7 @@ from flaskr.db import get_db
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 @bp.route('/register', methods=('GET', 'POST'))
-def registro():
+def register():
     if request.method == 'POST':
         username = request.form['username']
         upassword = request.form['password']
@@ -22,12 +22,12 @@ def registro():
         if error is None:
             try:
                 db.execute(
-                    "INSERT INTO user (username, password) VALUES (?,?);",
+                    "INSERT INTO user (username, upassword) VALUES (?,?);",
                     (username, generate_password_hash(upassword)),
                 )
                 db.commit()
             except db.IntegrityError:
-                error = f"O usuário {username} já está registrado."
+                error = f"O usuário {username} já estág registrado."
             else:
                 return redirect(url_for("auth.login"))
 
@@ -48,7 +48,7 @@ def login():
 
         if user is None:
             error = 'Não encontrei nenhum login parecido!'
-        elif not check_password_hash(user['password'], password):
+        elif not check_password_hash(user['upassword'], password):
             error='Cheque sua senha!'
 
         if error is None:
@@ -74,12 +74,12 @@ def logout():
     return redirect(url_for('index'))
 
 def login_required(view):
-    @function.wraps(view)
-    def wraped_view(**kwargs):
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
         if g.user is None:
             return redirect(url_for('auth_login'))
         
         return view(**kwargs)
     
-    return wraped_view
+    return wrapped_view
 
