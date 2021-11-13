@@ -2,9 +2,19 @@
 
 {% block header %}
     <h1>{% block title %}{{ post['title'] }}{% endblock%}</h1>
-    <div class="about">por {{ post['username'] }} em {{ post['created'].strftime('%d - %m - %d') }}</div>
+    <div class="about">por {{ post['username'] }} em {{ post['created'].strftime('%d - %m - %y') }}</div>
 {% endblock %}
 
 {% block content %}
     <p>{{ post['body']}}</p>
+    <!-- criar uma logica para gostar e desgostar do post-->
+        <div class="react">
+            <p>
+                Gostou desta publicação?
+                <a href="#" class="likebtn">Sim, gostei sim!</a>
+            </p>
+        </div>
+    <!-- endlogica -->
+    
+
 {% endblock %}
